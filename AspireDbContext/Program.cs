@@ -1,9 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AspireDbContext;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 Console.WriteLine("Hello, World!");
 
-using var db = new BloggingContext();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+builder.Services.AddDbContext<BloggingContext>();
+
+using IHost host = builder.Build();
+host.Start();
+
+using var scope = host.Services.CreateScope();
+using var db = scope.ServiceProvider.GetRequiredService<BloggingContext>();
 
 db.Database.EnsureCreated();
 
@@ -21,8 +30,7 @@ var blog = db.Blogs
 // Update
 Console.WriteLine("Updating the blog and adding a post");
 blog.Url = "https://devblogs.microsoft.com/dotnet";
-blog.Posts.Add(
-    new Post { Title = "Hello World", Content = "I wrote an app using EF Core!" });
+blog.Posts.Add(new Post { Title = "Hello World", Content = "I wrote an app using EF Core!" });
 db.SaveChanges();
 
 // Delete
