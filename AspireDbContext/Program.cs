@@ -1,4 +1,4 @@
-// See https://aka.ms/new-console-template for more information
+﻿// See https://aka.ms/new-console-template for more information
 using AspireDbContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 Console.WriteLine("Hello, World!");
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddDbContext<BloggingContext>();
+builder.AddSqlServerDbContext<BloggingContext>("sqldb");
 
 using IHost host = builder.Build();
 host.Start();
@@ -17,8 +17,8 @@ ExecuteDb(db => db.Database.EnsureCreated());
 Console.WriteLine("Inserting a new blog");
 ExecuteDb(db =>
 {
-db.Add(new Blog { Url = "http://blogs.msdn.com/adonet" });
-db.SaveChanges();
+    db.Add(new Blog { Url = "http://blogs.msdn.com/adonet" });
+    db.SaveChanges();
 });
 
 // Read

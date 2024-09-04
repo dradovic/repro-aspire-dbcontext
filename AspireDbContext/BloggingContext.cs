@@ -6,6 +6,11 @@ namespace AspireDbContext
     {
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Post> Posts { get; set; }
+
+        public BloggingContext(DbContextOptions options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlServer($"Server=localhost;Database=repro-aspire-dbcontext;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=False");
     }
