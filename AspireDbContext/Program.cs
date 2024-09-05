@@ -1,11 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 using AspireDbContext;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 Console.WriteLine("Hello, World!");
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 builder.AddSqlServerDbContext<BloggingContext>("sqldb");
 
 using IHost host = builder.Build();
